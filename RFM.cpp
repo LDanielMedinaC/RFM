@@ -6,6 +6,8 @@
     The nodes' are numbered from 1 to N 
     the weight is positive and a integer that fits in an integer 
 
+
+
 */
 
 
@@ -46,13 +48,6 @@ int pop(int pos){
     positions[OPEN[pos]] = 0;
     OPEN[pos] = OPEN[s--]; 
     positions[OPEN[pos]] = pos;
-    if(r == 5){
-        cout << s << endl;
-    }
-    if(s == 0){
-        cout << "\n\n\n end \n\n\n";
-        return r;
-    }
     while(pos <= s){
         int a = pos * 2 <= s ? pos * 2 : N + 1;
         int b = pos * 2 + 1 <= s? pos * 2 + 1: N + 1;
@@ -131,32 +126,25 @@ void read(){
 
 }
 
-vector<int> getPath(){
-    cout << "todo bien aja la baraja\n";
-    int actual = CLOSE[finaln];
-    cout << "aca andamos \n";
-    vector<int> r;
-    cout << "entro";
-    while(actual != start){
-        r.push_back(actual);
+
+void printPath(int actual){
+    if(actual == start){
+        cout << start << " ";
+        return;
     }
-    r.push_back(actual);
-    reverse(r.begin(), r.end());
-    cout << "salio \n";
-    return r;
+    printPath(CLOSE[actual]);
+    cout << actual << " ";
 }
 
-vector<int> RFM(){
+void RFM(){
     add(start);
     while(s != 0){
        
         int actual = pop(1);
         
         if(actual == finaln){
-            cout << "aqui andamos compa\n";
             break;
         }
-        cout << "/n/n -------- entro : " << actual << " ------ \n\n";
         for(int i = 1; i <= N; i++){
             if(amatrix[actual][i] != 0){
 
@@ -166,34 +154,25 @@ vector<int> RFM(){
                 amatrix[i][actual] = 0;
 
                 //if it improves update or add the cost in OPEN set
-                cout << actual << " actual: " << cost[actual] + c << " ----" << i << " : " << cost[i] << endl;
                 if(c + cost[actual] < cost[i]){
-                    cout << i << endl;
                     cost[i] = c + cost[actual];
                     add(i);
                     CLOSE[i] = actual; 
                 }
             }
         }
-        cout << "/n/n -------- salio : " << actual << " ------ \n\n";
-        
-        cout << "\n" << s << " : " << OPEN[1] << "\n";
     }
-    cout << "que paso aqui \n";
-    return getPath();
 }
 
-void printRFM(vector<int> path){
+void printRFM(){
     cout << "cost to get to B is: " << cost[finaln] << "\n";
     cout << "the path to follow is: ";
-    for(int i = 0; i < path.size(); i++){
-        cout << path[i] << "\n";
-    } 
+    printPath(finaln);
     cout << "\n";
 }
 
 int main(){
     read();
-    vector<int> path = RFM();
-    printRFM(path);
+    RFM();
+    printRFM();
 }
