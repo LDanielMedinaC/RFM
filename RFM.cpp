@@ -24,16 +24,16 @@ int start, finaln;
 int s;
 
 // we are implementing a prearity queue for OPEN set, for this we are using a heap. 
-int OPEN[100];
+int * OPEN;
 
 // CLOSE is the set of the node that have been visited
-int CLOSE[100];
+int * CLOSE;
 
 // cost is used to know the current cost of each node.
-int cost[100];
+int * cost;
 
 // This array helps to eliminate easy and fast from OPEN 
-int positions[100];
+int * positions;
 
 // adyacency matrix to save the graph, we are using a matrix because is faster to delete any edge once is used. 
 // We can change it this for a list instead of a matrix, but for deleting edges we will have to take more time or sort the list and do a binary search. 
@@ -81,22 +81,21 @@ void add(int node){
 }
 ///declare the size of the elements because we are using static memory and set everything in 0, 0 means not used
 void ini(){
-    /*OPEN = (int*) malloc(sizeof(int) * (N + 2));
+    OPEN = (int*) malloc(sizeof(int) * (N + 2));
     CLOSE = (int*) malloc(sizeof(int) * (N + 2));
     positions = (int*) malloc(sizeof(int) * (N + 2));
     //amatrix = (int**) malloc(sizeof(int)* (N + 3));
     cost = (int*)malloc(sizeof(int) * (N + 2)); 
-    */
     for(int i = 0; i <= N; i++)
     {
         //amatrix[i] = (int*) malloc(sizeof(int)*(N + 2));
-        //memset(amatrix[i], 0, N + 2);
+        memset(amatrix[i], 0, N + 2);
         cost[i] = INT_MAX;
     }
     memset(OPEN, 0, N + 2);
     memset(CLOSE, 0, N + 2);
     memset(positions, 0, N + 2);
-    //memset(cost, INT_MAX, N + 2);
+    memset(cost, INT_MAX, N + 2);
     
     cost[0] = INT_MIN;
     cost[N + 1] = INT_MAX;
